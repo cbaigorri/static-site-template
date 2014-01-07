@@ -88,6 +88,20 @@ module.exports = (grunt) ->
     # HTML Lint
     htmllint:
       all: ['build/**/*.html']
+    # Accessibility
+    accessibility:
+      options:
+        accessibilityLevel: 'WCAG2A'
+      test:
+        files: [
+            expand: true
+            cwd: 'build/'
+            src: ['*.html']
+            dest: 'reports/'
+            ext: '-report.txt'
+        ]
+
+  grunt.loadTasks 'tasks'
 
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-jade'
@@ -97,10 +111,13 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-coffeelint'
   grunt.loadNpmTasks 'grunt-html'
+  grunt.loadNpmTasks 'grunt-accessibility'
   grunt.loadNpmTasks 'grunt-contrib-less'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-browserify'
 
-  grunt.registerTask 'default', ['clean', 'jade', 'less', 'coffeelint', 'browserify', 'htmllint']
+  grunt.registerTask 'test', ['default', 'htmllint', 'accessibility']
+  grunt.registerTask 'default', ['clean', 'jade', 'less', 'coffeelint', 'browserify']
   grunt.registerTask 'dev', ['default', 'connect', 'watch']
+  grunt.registerTask 'release', ['default', 'connect', 'watch']

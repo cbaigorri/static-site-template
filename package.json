@@ -26,7 +26,9 @@
     "connect-livereload": "~0.3.2",
     "grunt-contrib-jade": "~0.9.1",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-html": "~0.3.4"
+    "grunt-html": "~0.3.4",
+    "grunt-email-builder": "~1.1.0",
+    "grunt-accessibility": "~0.1.0"
   },
   "license": "MIT"
 }
