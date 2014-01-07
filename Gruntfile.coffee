@@ -88,6 +88,13 @@ module.exports = (grunt) ->
     # HTML Lint
     htmllint:
       all: ['build/**/*.html']
+    # CSS Lint
+    # See rules: https://github.com/stubbornella/csslint/wiki/Rules
+    csslint:
+      options:
+        csslintrc: '.csslintrc'
+      default:
+        src: ['build/css/**/*.css']
     # Accessibility
     accessibility:
       options:
@@ -109,6 +116,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-jshint'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
+  grunt.loadNpmTasks 'grunt-contrib-csslint'
   grunt.loadNpmTasks 'grunt-coffeelint'
   grunt.loadNpmTasks 'grunt-html'
   grunt.loadNpmTasks 'grunt-accessibility'
@@ -117,7 +125,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-browserify'
 
-  grunt.registerTask 'test', ['default', 'htmllint', 'accessibility']
+  grunt.registerTask 'test', ['default', 'htmllint', 'csslint', 'accessibility']
   grunt.registerTask 'default', ['clean', 'jade', 'less', 'coffeelint', 'browserify']
   grunt.registerTask 'dev', ['default', 'connect', 'watch']
   grunt.registerTask 'release', ['default', 'connect', 'watch']

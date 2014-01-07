@@ -28,7 +28,8 @@
     "grunt-contrib-clean": "~0.5.0",
     "grunt-html": "~0.3.4",
     "grunt-email-builder": "~1.1.0",
-    "grunt-accessibility": "~0.1.0"
+    "grunt-accessibility": "~0.1.0",
+    "grunt-contrib-csslint": "~0.2.0"
   },
   "license": "MIT"
 }
