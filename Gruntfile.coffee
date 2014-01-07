@@ -85,6 +85,9 @@ module.exports = (grunt) ->
         'Gruntfile.coffee'
         'src/index.coffee'
       ]
+    # HTML Lint
+    htmllint:
+      all: ['build/**/*.html']
 
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-jade'
@@ -93,10 +96,11 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-coffeelint'
+  grunt.loadNpmTasks 'grunt-html'
   grunt.loadNpmTasks 'grunt-contrib-less'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-browserify'
 
-  grunt.registerTask 'default', ['clean', 'jade', 'less', 'coffeelint', 'browserify']
+  grunt.registerTask 'default', ['clean', 'jade', 'less', 'coffeelint', 'browserify', 'htmllint']
   grunt.registerTask 'dev', ['default', 'connect', 'watch']

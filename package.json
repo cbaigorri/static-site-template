@@ -7,7 +7,9 @@
     "type": "git",
     "url": "https://github.com/cbaigorri/static-site-template.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "~2.1.0-beta2"
+  },
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.8.0",
@@ -23,7 +25,8 @@
     "grunt-contrib-connect": "~0.6.0",
     "connect-livereload": "~0.3.2",
     "grunt-contrib-jade": "~0.9.1",
-    "grunt-contrib-clean": "~0.5.0"
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-html": "~0.3.4"
   },
   "license": "MIT"
 }
