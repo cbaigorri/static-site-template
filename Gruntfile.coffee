@@ -17,7 +17,8 @@ module.exports = (grunt) ->
     #       base: 'build'
     #       keepalive: true
     #       livereload: true
-    # # Watch
+
+    # Watch
     watch:
       src:
         options:
@@ -36,22 +37,33 @@ module.exports = (grunt) ->
             grunt.log.writeln 'Waiting for changes...'
           livereload: true
         files: ['build/**/*']
-    # # Clean
+
+    # Clean
     clean:
       build: ['build']
       release: ['release']
+      releaseExtras: ['release/css/style.css', 'release/js/bundle.js']
+
     #Jade
     jade:
-      compile:
+      development:
         options:
           pretty: true
         files:
           'build/index.html': 'src/index.jade'
+      production:
+        options:
+          pretty: false
+        files:
+          'release/index.html': 'relase/index.jade'
+
     # Less
     less:
       development:
         options:
           paths: 'src/less'
+          compress: false
+          cleancss: false
         files:
           'build/css/style.css': 'src/less/main.less'
       production:
@@ -60,7 +72,8 @@ module.exports = (grunt) ->
           compress: true
           cleancss: true
         files:
-          'build/css/style.css': 'src/less/main.less'
+          'release/css/style.min.css': 'src/less/main.less'
+
     # Browserify
     browserify:
       dist:
@@ -70,6 +83,7 @@ module.exports = (grunt) ->
           ]
         options:
           transform: ['coffeeify']
+
     # JSHint
     jshint:
       options:
@@ -79,6 +93,7 @@ module.exports = (grunt) ->
       all: [
         'build/bundle.js'
       ]
+
     # Coffee Lint
     coffeelint:
       options:
@@ -90,6 +105,7 @@ module.exports = (grunt) ->
         'Gruntfile.coffee'
         'src/index.coffee'
       ]
+
     # HTML Lint
     htmllint:
       all: ['build/**/*.html']
@@ -100,29 +116,75 @@ module.exports = (grunt) ->
         csslintrc: '.csslintrc'
       default:
         src: ['build/css/**/*.css']
+
     # Accessibility
     accessibility:
       options:
         accessibilityLevel: 'WCAG2A'
       test:
         files: [
-            expand: true
+            expand: false
             cwd: 'build/'
             src: ['*.html']
             dest: 'reports/'
             ext: '-report.txt'
         ]
-    # Clean Release
-    # Copy
-    # Min, HTML, CSS, JS
-    # Compress
 
+    # Copy
+    copy:
+      main:
+        expand: true
+        cwd: 'build/'
+        src: '**'
+        dest: 'release/'
+
+    # Ugilfy
+    uglify:
+      release:
+        files:
+          'release/js/bundle.min.js': ['release/js/bundle.js']
+
+    # Process HTML
+    processhtml:
+      dist:
+        options:
+          process: true
+        files:
+          'release/index.html': ['release/index.html']
+
+    # Compress HTML
+    htmlmin:
+      dist:
+        options:
+          removeComments: true
+          collapseWhitespace: true
+          removeCommentsFromCDATA: true
+        files:
+          'release/index.html': 'relase/index.html'
+
+    # Compress Images
+    imagemin:
+      release:
+        files: [
+          expand: true
+          cwd: 'release/'
+          src: ['**/*.{png,jpg,gif}']
+          dest: 'release/'
+        ]
+    # Build number
+
+
+  # This is required for the accessibility task
   grunt.loadTasks 'tasks'
 
+  # Dependencies
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
 
-  grunt.registerTask 'test', ['default', 'htmllint', 'csslint', 'accessibility']
-  grunt.registerTask 'default', ['clean', 'jade', 'less', 'coffeelint', 'browserify']
-  grunt.registerTask 'dev', ['default', 'express', 'watch']
-  # grunt.registerTask 'dev', ['default', 'connect', 'watch']
-  grunt.registerTask 'release', ['default', 'test']
+  # Test
+  grunt.registerTask 'test', ['compile', 'htmllint', 'csslint', 'accessibility']
+  # Compile
+  grunt.registerTask 'compile', ['clean:build', 'jade:development', 'less:development', 'coffeelint', 'browserify']
+  # Development
+  grunt.registerTask 'dev', ['compile', 'express', 'watch']
+  # Release
+  grunt.registerTask 'release', ['compile', 'clean:release', 'copy', 'less:production', 'processhtml', 'uglify', 'htmlmin', 'imagemin', 'clean:releaseExtras']
