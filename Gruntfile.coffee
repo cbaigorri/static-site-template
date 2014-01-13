@@ -2,21 +2,23 @@
 module.exports = (grunt) ->
 
   grunt.initConfig
-    # Connect server
-    connect:
+    # Express
+    express:
       server:
         options:
           port: 9001
-          base: 'build'
-          keepalive: true
+          bases: ['build']
           livereload: true
-    # Watch
+    # # Connect server
+    # connect:
+    #   server:
+    #     options:
+    #       port: 9001
+    #       base: 'build'
+    #       keepalive: true
+    #       livereload: true
+    # # Watch
     watch:
-      options:
-        dateFormat: (time) ->
-          grunt.log.writeln 'Watch finished in ' + time + 'ms at ' + (new Date()).toString()
-          grunt.log.writeln 'Waiting for changes...'
-        livereload: true
       src:
         options:
           livereload: false
@@ -29,9 +31,12 @@ module.exports = (grunt) ->
       # Live reload
       livereload:
         options:
+          dateFormat: (time) ->
+            grunt.log.writeln 'Watch finished in ' + time + 'ms at ' + (new Date()).toString()
+            grunt.log.writeln 'Waiting for changes...'
           livereload: true
         files: ['build/**/*']
-    # Clean
+    # # Clean
     clean:
       build: ['build']
       release: ['release']
@@ -107,25 +112,17 @@ module.exports = (grunt) ->
             dest: 'reports/'
             ext: '-report.txt'
         ]
+    # Clean Release
+    # Copy
+    # Min, HTML, CSS, JS
+    # Compress
 
   grunt.loadTasks 'tasks'
 
-  grunt.loadNpmTasks 'grunt-contrib-clean'
-  grunt.loadNpmTasks 'grunt-contrib-jade'
-  grunt.loadNpmTasks 'grunt-contrib-connect'
-  grunt.loadNpmTasks 'grunt-contrib-jshint'
-  grunt.loadNpmTasks 'grunt-contrib-uglify'
-  grunt.loadNpmTasks 'grunt-contrib-coffee'
-  grunt.loadNpmTasks 'grunt-contrib-csslint'
-  grunt.loadNpmTasks 'grunt-coffeelint'
-  grunt.loadNpmTasks 'grunt-html'
-  grunt.loadNpmTasks 'grunt-accessibility'
-  grunt.loadNpmTasks 'grunt-contrib-less'
-  grunt.loadNpmTasks 'grunt-contrib-watch'
-  grunt.loadNpmTasks 'grunt-contrib-concat'
-  grunt.loadNpmTasks 'grunt-browserify'
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
 
   grunt.registerTask 'test', ['default', 'htmllint', 'csslint', 'accessibility']
   grunt.registerTask 'default', ['clean', 'jade', 'less', 'coffeelint', 'browserify']
-  grunt.registerTask 'dev', ['default', 'connect', 'watch']
-  grunt.registerTask 'release', ['default', 'connect', 'watch']
+  grunt.registerTask 'dev', ['default', 'express', 'watch']
+  # grunt.registerTask 'dev', ['default', 'connect', 'watch']
+  grunt.registerTask 'release', ['default', 'test']
