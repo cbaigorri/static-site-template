@@ -23,12 +23,8 @@ module.exports = (grunt) ->
       src:
         options:
           livereload: false
-        files:[
-          'src/**/*.coffee'
-          'src/**/*.less'
-          'src/**/*.jade'
-        ]
-        tasks: ['default']
+        files: ['src/**/*.{js,coffee,less,html,jade}']
+        tasks: ['compile']
       # Live reload
       livereload:
         options:
@@ -46,12 +42,12 @@ module.exports = (grunt) ->
 
     #Jade
     jade:
-      development:
+      build:
         options:
           pretty: true
         files:
           'build/index.html': 'src/index.jade'
-      production:
+      release:
         options:
           pretty: false
         files:
@@ -59,14 +55,14 @@ module.exports = (grunt) ->
 
     # Less
     less:
-      development:
+      build:
         options:
           paths: 'src/less'
           compress: false
           cleancss: false
         files:
           'build/css/style.css': 'src/less/main.less'
-      production:
+      release:
         options:
           paths: 'src/less'
           compress: true
@@ -123,7 +119,7 @@ module.exports = (grunt) ->
         accessibilityLevel: 'WCAG2A'
       test:
         files: [
-            expand: false
+            expand: true
             cwd: 'build/'
             src: ['*.html']
             dest: 'reports/'
@@ -132,7 +128,12 @@ module.exports = (grunt) ->
 
     # Copy
     copy:
-      main:
+      build:
+        expand: true
+        cwd: 'src/'
+        src: ['**/*.{html,png,jpg,gif}']
+        dest: 'build/'
+      release:
         expand: true
         cwd: 'build/'
         src: '**'
@@ -165,6 +166,11 @@ module.exports = (grunt) ->
     # Compress Images
     imagemin:
       release:
+        options:
+          optimizationLevel: 7
+          progressive: true
+          interlaced: true
+          pngquant: true
         files: [
           expand: true
           cwd: 'release/'
@@ -183,8 +189,8 @@ module.exports = (grunt) ->
   # Test
   grunt.registerTask 'test', ['compile', 'htmllint', 'csslint', 'accessibility']
   # Compile
-  grunt.registerTask 'compile', ['clean:build', 'jade:development', 'less:development', 'coffeelint', 'browserify']
+  grunt.registerTask 'compile', ['clean:build', 'copy:build','jade:build', 'less:build', 'coffeelint', 'browserify']
   # Development
   grunt.registerTask 'dev', ['compile', 'express', 'watch']
   # Release
-  grunt.registerTask 'release', ['compile', 'clean:release', 'copy', 'less:production', 'processhtml', 'uglify', 'htmlmin', 'imagemin', 'clean:releaseExtras']
+  grunt.registerTask 'release', ['compile', 'clean:release', 'copy:release', 'less:release', 'processhtml', 'uglify', 'htmlmin', 'imagemin', 'clean:releaseExtras']
