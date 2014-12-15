@@ -1,6 +1,6 @@
 {
-  "name": "test-dev-environment",
-  "version": "0.0.1",
+  "name": "static-site-template",
+  "version": "0.0.2",
   "author": "Chris Baigorri",
   "description": "Static site template using Jade, Coffeescript, Browserify and Grunt",
   "repository": {
@@ -44,5 +44,8 @@
     "grunt-bumpx": "~0.1.5",
     "grunt-contrib-imagemin": "~0.4.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10"
+  }
 }

@@ -1,0 +1,24 @@
+{
+  "name": "static-site-template",
+  "version": "0.0.2",
+  "homepage": "https://github.com/cbaigorri/static-site-template",
+  "authors": [
+    "Chris Baigorri <cbaigorri@gmail.com>"
+  ],
+  "description": "Static site template using Jade, Coffeescript, Browserify and Grunt",
+  "moduleType": [
+    "es6"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.1"
+  }
+}
