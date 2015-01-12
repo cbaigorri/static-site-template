@@ -9,6 +9,11 @@ module.exports = (grunt) ->
           port: 9001
           bases: ['build']
           livereload: true
+      preview:
+        options:
+          port: 9002
+          bases: ['release']
+          keepalive: true
     # # Connect server
     # connect:
     #   server:
@@ -192,5 +197,7 @@ module.exports = (grunt) ->
   grunt.registerTask 'compile', ['clean:build', 'copy:build','jade:build', 'less:build', 'coffeelint', 'browserify']
   # Development
   grunt.registerTask 'dev', ['compile', 'express', 'watch']
+  # Release Preview
+  grunt.registerTask 'preview', ['express:preview', 'express-keepalive'
   # Release
   grunt.registerTask 'release', ['compile', 'clean:release', 'copy:release', 'less:release', 'processhtml', 'uglify', 'htmlmin', 'imagemin', 'clean:releaseExtras']
