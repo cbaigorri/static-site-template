@@ -50,6 +50,9 @@ module.exports = (grunt) ->
       build:
         options:
           pretty: true
+          # you can provide specfic content to a template by using the src, dest params
+          data: (src, dest) ->
+            require './data/content.json'
         files:
           'build/index.html': 'src/index.jade'
       release:
