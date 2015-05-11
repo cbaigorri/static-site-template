@@ -53,13 +53,31 @@ module.exports = (grunt) ->
           # you can provide specfic content to a template by using the src, dest params
           data: (src, dest) ->
             require './data/content.json'
-        files:
-          'build/index.html': 'src/index.jade'
+        files: [
+          expand: true
+          src: 'pages/**/*.jade'
+          dest: 'build/'
+          cwd: 'src/views'
+          ext: '.html'
+          rename: (src, dest) ->
+            dest = dest.split('/')
+            dest.shift()
+            src + dest.join('/')
+        ]
       release:
         options:
           pretty: false
-        files:
-          'release/index.html': 'relase/index.jade'
+        files: [
+          expand: true
+          src: 'pages/**/*.jade'
+          dest: 'release/'
+          cwd: 'src/views'
+          ext: '.html'
+          rename: (src, dest) ->
+            dest = dest.split('/')
+            dest.shift()
+            src + dest.join('/')
+        ]
 
     # Less
     less:
@@ -158,8 +176,12 @@ module.exports = (grunt) ->
       dist:
         options:
           process: true
-        files:
-          'release/index.html': ['release/index.html']
+        files: [
+          expand: true
+          src: '**/*.html'
+          dest: 'release/'
+          cwd: 'release/'
+        ]
 
     # Compress HTML
     htmlmin:
@@ -168,8 +190,12 @@ module.exports = (grunt) ->
           removeComments: true
           collapseWhitespace: true
           removeCommentsFromCDATA: true
-        files:
-          'release/index.html': 'relase/index.html'
+        files: [
+          expand: true
+          src: '**/*.html'
+          dest: 'release/'
+          cwd: 'release/'
+        ]
 
     # Compress Images
     imagemin:
