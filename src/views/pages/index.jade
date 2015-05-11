@@ -1,0 +1,9 @@
+extends ../layouts/main
+block content
+  h1= title
+  h2 Loops from content.json
+  ul
+  each animal in animals
+    li=animal
+  a(href="#") link
+  img(src="blank.gif", alt="")

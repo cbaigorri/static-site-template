@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    title= title
+    meta(name="description", content="")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    include ../includes/head
+  body
+    block content
+
+    // build:js /js/bundle.min.js
+    script(src="/js/bundle.js")
+    // /build
