@@ -213,6 +213,21 @@ module.exports = (grunt) ->
         ]
     # Build number
 
+    # Deploy
+    rsync:
+      options:
+        args: ["--verbose"]
+        exclude: [
+        ]
+        recursive: true
+        ssh: true
+        privateKey: '/path/to/your.pem'
+      prod:
+        options:
+          src: "release/"
+          dest: "/srv/www/"
+          host: "user@0.0.0.0"
+
 
   # This is required for the accessibility task
   grunt.loadTasks 'tasks'
