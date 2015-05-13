@@ -67,6 +67,9 @@ module.exports = (grunt) ->
       release:
         options:
           pretty: false
+          # you can provide specfic content to a template by using the src, dest params
+          data: (src, dest) ->
+            require './data/content.json'
         files: [
           expand: true
           src: 'pages/**/*.jade'
