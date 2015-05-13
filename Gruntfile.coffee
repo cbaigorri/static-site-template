@@ -245,3 +245,5 @@ module.exports = (grunt) ->
   grunt.registerTask 'preview', ['express:preview', 'express-keepalive']
   # Release
   grunt.registerTask 'release', ['compile', 'clean:release', 'copy:release', 'less:release', 'processhtml', 'uglify', 'htmlmin', 'imagemin', 'clean:releaseExtras']
+  # Deploy
+  grunt.registerTask 'deploy', ['release', 'rsync:prod']
