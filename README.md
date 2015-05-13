@@ -34,4 +34,8 @@ Static site template using Jade, Coffeescript, Browserify, Bower and Grunt.
 
 `grunt preview`
 
+### Deploy
+
+`grunt deploy`
+
 
